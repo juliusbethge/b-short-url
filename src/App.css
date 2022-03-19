@@ -56,4 +56,5 @@ div.add-link button {
   height: 100%;
   padding-inline: 1rem;
   border: gray 1px solid;
+  border-radius: 2px;
 }

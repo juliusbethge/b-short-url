@@ -2,13 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 
-import { initializeApp } from 'firebase/app';
-import { getFunctions, httpsCallable } from 'firebase/functions';
-import FirebaseConfig from './firebase/firebase-config.json';
-
-const app = initializeApp(FirebaseConfig);
-const functions = getFunctions(app, 'europe-west1');
-const addLink = httpsCallable(functions, 'addLink');
+import { addLink } from './firebase/app'
 
 function App() {
 
@@ -24,7 +18,6 @@ function App() {
             <input value={inputUrl} onChange={(e) => setInputUrl(e.target.value)} type="text"/>
             <button onClick={() => addLink({longUrl: inputUrl}).then(result => console.log(result))}>Create</button>
           </div>
-
         </section>
       </main>
     </div>
