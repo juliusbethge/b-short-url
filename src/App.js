@@ -1,8 +1,9 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { addLink } from './firebase/app'
+import { addLink, onLinksChange } from './firebase/app'
+import Table from './components/Table';
 
 function App() {
 
@@ -11,6 +12,14 @@ function App() {
   const [copied, setCopied] = useState(false);
   const [pending, setPending] = useState(false);
 
+  const [links, setLinks] = useState([]);
+
+  useEffect(() => {
+    onLinksChange((docs) => {
+      setLinks(docs);
+    });
+  }, []);
+  
   const copyToClipboard = () => {
     setCopied(true)
     navigator.clipboard.writeText(feedback.url);
@@ -49,6 +58,21 @@ function App() {
               </div>
             ) : null
           }
+        </section>
+
+        <section className="glass">
+          <Table headings={["clicks", "short url", "destination", "last click"]}>
+            {
+              links ? links.map(link => (
+                <tr>
+                  <td>{link.visitCount}</td>
+                  <td>{link.shortUrl}</td>
+                  <td>{link.longUrl}</td>
+                  <td>{link.lastVisited}</td>
+                </tr>
+              )) : null
+            }
+          </Table>
         </section>
       </main>
     </div>
