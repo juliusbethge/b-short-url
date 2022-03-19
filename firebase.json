@@ -1,6 +1,13 @@
 {
   "hosting": {
     "public": "build",
+    "redirects": [
+      {
+        "source": "/:shortUrl",
+        "destination": "https://europe-west1-b-short-url.cloudfunctions.net/openLink/:shortUrl",
+        "type": 301
+      }
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",
