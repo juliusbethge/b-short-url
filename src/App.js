@@ -78,7 +78,7 @@ function App() {
               links ? links.sort((a,b) => b.visitCount-a.visitCount).map(link => (
                 <tr key={link.shortUrl}>
                   <td><b>{link.visitCount}</b></td>
-                  <td><a href={"https:/www."+link.shortUrl} >{link.shortUrl}</a></td>
+                  <td><a href={"https:/www."+link.shortUrl}>{link.shortUrl}</a></td>
                   <td><img src={"https://s2.googleusercontent.com/s2/favicons?domain_url="+link.longUrl} /></td>
                   <td title={link.longUrl}>{link.longUrlString}</td>
                   <td><b>{link.lastVisited}</b></td>
