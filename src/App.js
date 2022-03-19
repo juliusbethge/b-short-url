@@ -8,6 +8,7 @@ import Table from './components/Table';
 function App() {
 
   const [inputUrl, setInputUrl] = useState("");
+  const [inputUrlIsValid, setInputUrlIsValid]= useState(false);
   const [feedback, setFeedback] = useState();
   const [copied, setCopied] = useState(false);
   const [pending, setPending] = useState(false);
@@ -29,7 +30,6 @@ function App() {
   }
 
   const handleCreateRequest = () => {
-    // TODO: check url
     setPending(true);
     addLink({longUrl: inputUrl}).then(result => {
       setFeedback({
@@ -37,7 +37,19 @@ function App() {
         url: result.data
       });
       setPending(false);
+      setInputUrl("");
     });
+  }
+
+  const checkIfUrlIsValid = (string) => {
+    let url;
+    try {
+      url = new URL(string);
+    } catch (_) {
+      setInputUrlIsValid(false);
+      return;
+    }
+    setInputUrlIsValid(url.protocol === "http:" || url.protocol === "https:");
   }
 
   return (
@@ -47,8 +59,8 @@ function App() {
           <h1>b-short-url</h1>
           <p className='info'>by julius bethge</p>
           <div className="add-link">
-            <input value={inputUrl} onChange={(e) => setInputUrl(e.target.value)} type="text"/>
-            <button disabled={pending} onClick={handleCreateRequest}>Create</button>
+            <input value={inputUrl} onChange={(e) => {setInputUrl(e.target.value); checkIfUrlIsValid(e.target.value)}} type="text"/>
+            <button disabled={pending || !inputUrlIsValid} onClick={handleCreateRequest}>Create</button>
           </div>
           {
             feedback && feedback.success ? (
@@ -61,14 +73,15 @@ function App() {
         </section>
 
         <section className="glass">
-          <Table headings={["clicks", "short url", "destination", "last click"]}>
+          <Table headings={["clicks", "short url", "","destination", "last clicked"]}>
             {
-              links ? links.map(link => (
-                <tr>
-                  <td>{link.visitCount}</td>
-                  <td>{link.shortUrl}</td>
-                  <td>{link.longUrl}</td>
-                  <td>{link.lastVisited}</td>
+              links ? links.sort((a,b) => b.visitCount-a.visitCount).map(link => (
+                <tr key={link.shortUrl}>
+                  <td><b>{link.visitCount}</b></td>
+                  <td><a href={"https:/www."+link.shortUrl} >{link.shortUrl}</a></td>
+                  <td><img src={"https://s2.googleusercontent.com/s2/favicons?domain_url="+link.longUrl} /></td>
+                  <td title={link.longUrl}>{link.longUrlString}</td>
+                  <td><b>{link.lastVisited}</b></td>
                 </tr>
               )) : null
             }

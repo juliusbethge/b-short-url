@@ -14,7 +14,7 @@ export const onLinksChange = (onChange) => {
         const docs = querySnapshot.docs.map(d => d.data());
         docs.forEach(doc => {
             doc.lastVisited = utcToRelativeString(doc.lastVisited.seconds);
-            doc.longUrl = shortSring(doc.longUrl, 40);
+            doc.longUrlString= shortSring(doc.longUrl, 40);
         });
         onChange(docs);
     });

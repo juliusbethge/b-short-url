@@ -36,6 +36,7 @@ main {
 .glass {
   background: white;
   width: 80%;
+  max-width: 1000px;
   text-align: center;
   padding: 1rem;
   margin: 1rem;
