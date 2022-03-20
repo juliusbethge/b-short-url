@@ -27,3 +27,4 @@ firebase-debug.log
 /src/firebase/firebase-config.json
 .firebaserc
 firebase.json
+/.vscode
