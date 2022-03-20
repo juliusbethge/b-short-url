@@ -1,19 +1,19 @@
 # b-short-url
 
 ## Overview
-b-short-url is a serverless url shortener that is built for firebase. It uses different firebase services (Cloud Functions, Hosting and Firestore) to take advantage of be benefits that come with a serverless architecture: The set up process is pretty straight forward and the scaling and maintenance is done completely by Google.
+b-short-url is a serverless url shortener that is built for firebase. It uses different firebase services (Cloud Functions, Hosting, Firestore) to take advantage of the benefits that come with a serverless architecture: The setup process is pretty straight forward and the scaling and maintenance are done completely by Google.
 
 ### Url generation
-To generate new short urls, b-short-url uses the hash function *MD5*. This results in the fact that the same url is converted into the same short url every time. One problem using this approach is called collision. This means the fact that multiple urls (inputs) convert to the same short url (hash). In this case the user would not be able to create a short url if the corresponding hash is already used by another url.
+To generate new short urls, b-short-url uses the hash function *MD5*. This results in the fact that the same url is converted into the same short url every time. One problem using this approach is called collision. This means the fact that multiple urls (inputs) convert to the same short url (hash). In this case, the user would not be able to create a short url if the corresponding hash is already used by another url.
 
-To get a small url, b-short-url shortens the md5-hash (formatted in base64) to a specified length. This means it is possible to store up to 64^*length_of_hash* urls in the database. For example you can store up to 1,073,741,824 urls when setting the length to 5. The higher you set the length of the hash in the shortened url the smaller is the probability to experience collision issues while using b-short-url.
+To get a small url, b-short-url shortens the md5-hash (formatted in base64) to a specified length. This means it is possible to store up to 64^*length_of_hash* urls in the database. For example, you can store up to 1,073,741,824 urls when setting the length to 5. The higher you set the length of the hash in the shortened url the smaller is the probability to experience collision issues while using b-short-url.
 
-**NOTE:** Learn how to configure the length of the hash in the short url [here](#initialisation).
+**NOTE:** Learn how to configure the length of the hash in the short url [here](#initialization).
 
 ### Backend
 The backend consists of two parts:
 - adding urls and redirecting from the short url to the original one is handled by two *Firebase Cloud Functions*
-- that add to and read from a document based *Firestore database*.
+- that add to and read from a document-based *Firestore database*.
 
 ### Frontend
 The frontend is based on a *React JS web app* that is hosted via *Firebase Hosting*.
@@ -25,7 +25,7 @@ The frontend is based on a *React JS web app* that is hosted via *Firebase Hosti
    
 2. When your project is created, upgrade to the *Blaze Plan*. (This is needed to use *Cloud Functions*.)
    
-3. Create a new Firestore database for your project.
+3. Create a new *Firestore database* for your project.
    
 4. Change the Security Rules for the database to:
    ```
@@ -38,7 +38,7 @@ The frontend is based on a *React JS web app* that is hosted via *Firebase Hosti
        }
    }
    ```
-   This guarantees that you will be able to read the generated urls from the database from the frontend. As you can see, the write-access is disabled. We dont need to enable it because the writing will be handled by the Cloud Functions, which have unristricted access to the database no matter what.
+   This guarantees that you will be able to read the generated urls from the database from the frontend. As you can see, the write-access is disabled. We do not need to enable it because the writing will be handled by the Cloud Functions, which have unrestricted access to the database no matter what.
 
 5. Enable Firebase Hosting. You do not need to do the following installation steps.
    **OPTIONAL:** Configure your custom domain if you do not want to use the default one.
@@ -80,11 +80,11 @@ The frontend is based on a *React JS web app* that is hosted via *Firebase Hosti
       }
     ]
    ``` 
-   The regegular expression will look for the hash added to the base url in `base64`. This will prevent the redirects for requests intended to get the `favicon` or the `robots.txt`. Of course, you can limit the regex to the length your specified in the `.env` file above.
-   Replace the `<OPEN_LINK_FUNCTION_URL>` with the url to the openLink function. You need to deploy the functions first in order to see the right function url. If you do not want to deploy the functions first, the url should look like this: `https://europe-west1-<YOUR_UNIQUE_PROJECT_ID>.cloudfunctions.net/openLink`.
+   The regular expression will look for the hash added to the base url in `base64`. This will prevent the redirects for requests intended to get the `favicon` or the `robots.txt`. Of course, you can limit the regex to the length you specified in the `.env` file above.
+   Replace the `<OPEN_LINK_FUNCTION_URL>` with the url to the openLink function. You need to deploy the functions first to see the right function url. If you do not want to deploy the functions first, the url should look like this: `https://europe-west1-<YOUR_UNIQUE_PROJECT_ID>.cloudfunctions.net/openLink`.
 
 ### Deployment
-1. Before you are able to deploy the project to *Firebase*, you need to run:
+1. Before you can deploy the project to *Firebase*, you need to run:
    ```console
    npm run build
    ```
