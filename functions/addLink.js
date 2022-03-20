@@ -12,6 +12,15 @@ exports.addLink = functions.region('europe-west1').https.onCall(async (data, con
     const shortHash = crypto.createHash('md5').update(longUrl).digest('base64').slice(0, process.env.LENGTH_OF_SHORT_URL);
     const shortUrl = process.env.DEFAULT_WEBSITE_URL_SHORT + "/" + shortHash;
 
+    const documentSnapshot = await db.collection("links").doc(shortHash).get();
+
+    if (documentSnapshot.exists) {
+        return {
+            success: false,
+            errorMessage: "this short url already exists! please try another one"
+        }
+    }
+
     await db.collection('links').doc(shortHash).set({
         longUrl,
         shortUrl,
@@ -19,5 +28,8 @@ exports.addLink = functions.region('europe-west1').https.onCall(async (data, con
         lastVisited: FieldValue.serverTimestamp()
     });
 
-    return shortUrl;
+    return {
+        success: true,
+        shortUrl
+    };
 });

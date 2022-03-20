@@ -33,8 +33,9 @@ function App() {
     setPending(true);
     addLink({longUrl: inputUrl}).then(result => {
       setFeedback({
-        success: true,
-        url: result.data
+        success: result.data.success,
+        url: result.data.shortUrl,
+        errorMessage: result.data.errorMessage
       });
       setPending(false);
       setInputUrl("");
@@ -67,6 +68,13 @@ function App() {
               <div className="feedback">
                 <span>Your short url is <a href={"https://www."+feedback.url}>{feedback.url}</a></span>
                 <button disabled={copied} className="copy-to-clipboard" onClick={copyToClipboard}>{copied ? "Copied!" : "Copy"}</button>
+              </div>
+            ) : null
+          }
+          {
+            feedback && !feedback.success ? (
+              <div className="feedback">
+                <span className='error-message'>{feedback.errorMessage}</span>
               </div>
             ) : null
           }

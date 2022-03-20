@@ -87,3 +87,10 @@ div.feedback {
 div.feedback span {
   margin-right: 1rem;
 }
+
+div.feedback span.error-message {
+  margin-right: 0;
+  color: red;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
