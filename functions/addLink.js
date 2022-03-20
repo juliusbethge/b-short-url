@@ -10,7 +10,7 @@ exports.addLink = functions.region('europe-west1').https.onCall(async (data, con
 
     const longUrl = data.longUrl;
     const shortHash = crypto.createHash('md5').update(longUrl).digest('base64').slice(0, process.env.LENGTH_OF_SHORT_URL);
-    const shortUrl = process.env.DEFAULT_WEBSITE_URL_SHORT + "/" + shortHash;
+    const shortUrl = process.env.DEFAULT_WEBSITE_URL + "/" + shortHash;
 
     const documentSnapshot = await db.collection("links").doc(shortHash).get();
 

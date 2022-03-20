@@ -10,7 +10,7 @@ exports.openLink = functions.region('europe-west1').https.onRequest(async (reque
 
     const documentSnapshot = await db.collection("links").doc(shortHash).get();
 
-    let urlToRedirect = process.env.DEFAULT_WEBSITE_URL;
+    let urlToRedirect = "https://www." + process.env.DEFAULT_WEBSITE_URL;
 
     if (documentSnapshot.exists && documentSnapshot.data().longUrl !== undefined) {
         urlToRedirect = documentSnapshot.data().longUrl;
