@@ -66,7 +66,7 @@ function App() {
           {
             feedback && feedback.success ? (
               <div className="feedback">
-                <span>Your short url is <a href={"https://www."+feedback.url}>{feedback.url}</a></span>
+                <span>Your short url is <a href={"https://"+feedback.url}>{feedback.url}</a></span>
                 <button disabled={copied} className="copy-to-clipboard" onClick={copyToClipboard}>{copied ? "Copied!" : "Copy"}</button>
               </div>
             ) : null
@@ -86,7 +86,7 @@ function App() {
               links ? links.sort((a,b) => b.visitCount-a.visitCount).map(link => (
                 <tr key={link.shortUrl}>
                   <td><b>{link.visitCount}</b></td>
-                  <td><a href={"https://www."+link.shortUrl}>{link.shortUrl}</a></td>
+                  <td><a href={"https://"+link.shortUrl}>{link.shortUrl}</a></td>
                   <td><img src={"https://s2.googleusercontent.com/s2/favicons?domain_url="+link.longUrl} /></td>
                   <td title={link.longUrl}>{link.longUrlString}</td>
                   <td><b>{link.lastVisited}</b></td>
