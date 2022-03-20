@@ -3,8 +3,8 @@
     "public": "build",
     "redirects": [
       {
-        "source": "/:shortUrl",
-        "destination": "https://europe-west1-b-short-url.cloudfunctions.net/openLink/:shortUrl",
+        "regex": "^/(?P<shortHash>[A-Za-z%5Cd+/]+)$",
+        "destination": "https://europe-west1-b-short-url.cloudfunctions.net/openLink/:shortHash",
         "type": 301
       }
     ],
