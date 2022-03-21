@@ -1,10 +1,10 @@
 # b-short-url
 
 ## Overview
-b-short-url is a serverless url shortener that is built for firebase. It uses different firebase services (Cloud Functions, Hosting, Firestore) to take advantage of the benefits that come with a serverless architecture: The setup process is pretty straight forward and the scaling and maintenance are done completely by Google.
+b-short-url is a serverless url shortener that is built with firebase. It uses different firebase services (Cloud Functions, Hosting, Firestore) to take advantage of the benefits that come with a serverless architecture: The setup process is pretty straight forward and the scaling and maintenance are done completely by Google.
 
 ### Url generation
-To generate new short urls, b-short-url uses the hash function *MD5*. This results in the fact that the same url is converted into the same short url every time. One problem using this approach is called collision. This means the fact that multiple urls (inputs) convert to the same short url (hash). In this case, the user would not be able to create a short url if the corresponding hash is already used by another url.
+To generate new short urls, b-short-url uses the hash function *MD5*. This results in the fact that the same url is converted into the same short url every time. One problem using this approach is called collision. This means that multiple urls (inputs) convert to the same short url (hash). In this case, the user would not be able to create a short url if the corresponding hash is already used by another url.
 
 To get a small url, b-short-url shortens the md5-hash (formatted in base64) to a specified length. This means it is possible to store up to 64^*length_of_hash* urls in the database. For example, you can store up to 1,073,741,824 urls when setting the length to 5. The higher you set the length of the hash in the shortened url the smaller is the probability to experience collision issues while using b-short-url.
 
@@ -18,12 +18,12 @@ The backend consists of two parts:
 ### Frontend
 The frontend is based on a *React JS web app* that is hosted via *Firebase Hosting*.
 
-## Set up
+## Setup
 
 ### Firebase configuration
 1. At first you need to go to the [Firebase console](https://console.firebase.google.com/) and create a new project.
    
-2. When your project is created, upgrade to the *Blaze Plan*. (This is needed to use *Cloud Functions*.)
+2. When your project is created, upgrade to the *Blaze Plan*. (This is needed for *Cloud Functions*.)
    
 3. Create a new *Firestore database* for your project.
    
@@ -45,14 +45,14 @@ The frontend is based on a *React JS web app* that is hosted via *Firebase Hosti
 
 6. Add a web app to your project and save the firebase config object. You will need it in the next section.
 
-### Initialisation
+### Initialization
 1. Copy the files from this repository to your system.
 
-2. Open the directory in your terminal run:
+2. Open the directory in your terminal and run:
    ```console
    firebase init
    ```
-   Select *Cloud Functions* and *Hosting*. Connect it to the Firebase project created in [Firebase configuration](#firebase-configuration). Stay with the default answers for the following questions but make sure to select `build` as your public directory.
+   Select *Cloud Functions* and *Hosting*. Connect it to the Firebase project you created in [Firebase configuration](#firebase-configuration). Stay with the default answers for the following questions but make sure to select `build` as your public directory.
 
 3. Next run the command:
    ```console
